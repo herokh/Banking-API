@@ -15,7 +15,6 @@ namespace Banking.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IBanNumber = table.Column<string>(maxLength: 50, nullable: false),
                     AccountName = table.Column<string>(maxLength: 50, nullable: false),
-                    AvailableBalance = table.Column<decimal>(type: "DECIMAL(13, 4)", nullable: false),
                     RegisterDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -30,6 +29,7 @@ namespace Banking.Infrastructure.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Amount = table.Column<decimal>(type: "DECIMAL(13, 4)", nullable: false),
+                    Fee = table.Column<double>(nullable: false),
                     CreateAt = table.Column<DateTime>(nullable: false),
                     StatementType = table.Column<int>(nullable: false),
                     AccountId = table.Column<int>(nullable: false)

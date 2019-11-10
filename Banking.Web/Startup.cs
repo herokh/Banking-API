@@ -7,6 +7,13 @@ using Microsoft.EntityFrameworkCore;
 using Banking.Infrastructure;
 using Microsoft.OpenApi.Models;
 using Banking.Infrastructure.Repositories.EFCore;
+using FluentValidation;
+using Banking.Application.DTOs;
+using Banking.Application.Validations;
+using Banking.Service.Services.Interfaces;
+using Banking.Service.Services;
+using Banking.Application.Models;
+using Banking.Application.Middlewares;
 
 namespace Banking.Web
 {
@@ -22,7 +29,24 @@ namespace Banking.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<EfCoreAccountRepository>();
+            #region application
+            services.AddTransient<IValidator<AccountRegisterDto>, AccountRegisterValidator>();
+            services.AddScoped<AccountRegisterValidator>();
+            services.AddTransient<IValidator<StatementDepositDto>, StatementDepositValidator>();
+            services.AddScoped<StatementDepositValidator>();
+
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            #endregion
+
+            #region infrastructure
+            services.AddScoped<AccountRepository>();
+            services.AddScoped<StatementRepository>();
+            #endregion
+
+            #region service
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IStatementService, StatementService>();
+            #endregion
 
             services.AddControllers();
 
@@ -33,7 +57,7 @@ namespace Banking.Web
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Banking API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Banking API", Version = "1" });
             });
         }
 
@@ -45,6 +69,8 @@ namespace Banking.Web
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseMiddleware<ExceptionMiddleware>();
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -54,7 +80,7 @@ namespace Banking.Web
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Banking API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Banking API");
             });
 
             app.UseEndpoints(endpoints =>

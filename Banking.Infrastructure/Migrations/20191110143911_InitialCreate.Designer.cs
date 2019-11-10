@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Banking.Infrastructure.Migrations
 {
     [DbContext(typeof(BankingContext))]
-    [Migration("20191110081426_InitialCreate")]
+    [Migration("20191110143911_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,9 +32,6 @@ namespace Banking.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
-
-                    b.Property<decimal>("AvailableBalance")
-                        .HasColumnType("DECIMAL(13, 4)");
 
                     b.Property<string>("IBanNumber")
                         .IsRequired()
@@ -64,6 +61,9 @@ namespace Banking.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<double>("Fee")
+                        .HasColumnType("float");
 
                     b.Property<int>("StatementType")
                         .HasColumnType("int");

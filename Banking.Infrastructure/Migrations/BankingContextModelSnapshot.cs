@@ -31,9 +31,6 @@ namespace Banking.Infrastructure.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<decimal>("AvailableBalance")
-                        .HasColumnType("DECIMAL(13, 4)");
-
                     b.Property<string>("IBanNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(50)")
@@ -62,6 +59,9 @@ namespace Banking.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<double>("Fee")
+                        .HasColumnType("float");
 
                     b.Property<int>("StatementType")
                         .HasColumnType("int");

@@ -1,4 +1,5 @@
-﻿using Banking.Application.Models.Interfaces;
+﻿using Banking.Application.DTOs;
+using Banking.Application.Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -19,12 +20,8 @@ namespace Banking.Application.Models
         public string AccountName { get; set; }
 
         [Required]
-        public double AvailableBalance { get; set; }
-
-        [Required]
         [DataType(DataType.Date)]
         public DateTime RegisterDate { get; set; }
-
 
         public IEnumerable<Statement> Statements { get; set; }
     }
