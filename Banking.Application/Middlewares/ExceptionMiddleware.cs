@@ -34,8 +34,10 @@ namespace Banking.Application.Middlewares
             context.Response.ContentType = "application/json";
             var code = HttpStatusCode.InternalServerError;
 
-            if (exception is ValidationException || exception is DataNotFoundException)
+            if (exception is AccountNotFoundException)
                 code = HttpStatusCode.NotFound;
+            else if (exception is ValidationException || exception is AccountRegistrationException)
+                code = HttpStatusCode.BadRequest;
 
             context.Response.StatusCode = (int)code;
             var result = JsonConvert.SerializeObject(new

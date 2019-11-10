@@ -1,4 +1,5 @@
 ﻿using Banking.Application.DTOs;
+using Banking.Application.Exceptions;
 using Banking.Application.Helpers;
 using Banking.Application.Models;
 using Banking.Application.Validations;
@@ -27,6 +28,10 @@ namespace Banking.Service.Services
         public async Task<AccountDto> Create(AccountRegisterDto dto)
         {
             ValidationHelper.Validate(_validator, dto);
+            var account = await _repository.GetByIBanNumber(dto.iban_number);
+            if (account != null)
+                throw new AccountRegistrationException($"IBan number[{dto.iban_number}] already exists");
+
             var entity = new Account
             {
                 AccountName = dto.acccount_name,
@@ -40,9 +45,11 @@ namespace Banking.Service.Services
 
         public async Task<AccountDto> Get(string ibanNumber)
         {
-            var entity = await _repository.GetByIBanNumber(ibanNumber);
+            var account = await _repository.GetByIBanNumber(ibanNumber);
+            if (account == null)
+                throw new AccountNotFoundException($"Iban number[{ibanNumber}] was not found");
 
-            return ConvertToDto(entity);
+            return ConvertToDto(account);
         }
 
         public async Task<IEnumerable<AccountDto>> GetAll()

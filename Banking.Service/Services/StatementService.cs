@@ -1,4 +1,5 @@
 ﻿using Banking.Application.DTOs;
+using Banking.Application.Exceptions;
 using Banking.Application.Helpers;
 using Banking.Application.Models;
 using Banking.Application.Validations;
@@ -37,6 +38,8 @@ namespace Banking.Service.Services
         {
             ValidationHelper.Validate(_validator, dto);
             var account = await _accountRepository.GetByIBanNumber(dto.iban_number);
+            if (account == null)
+                throw new AccountNotFoundException($"Iban number[{dto.iban_number}] was not found");
 
             var statement = new Statement
             {
@@ -53,14 +56,18 @@ namespace Banking.Service.Services
 
         public async Task<StatementDto> Get(int id)
         {
-            var entity = await _statementRepository.Get(id);
+            var statement = await _statementRepository.Get(id);
+            var dto = ConvertToDto(statement);
 
-            return ConvertToDto(entity);
+            return dto;
         }
 
         public async Task<IEnumerable<StatementDto>> GetAll(string ibanNumber)
         {
             var account = await _accountRepository.GetByIBanNumber(ibanNumber);
+            if (account == null)
+                throw new AccountNotFoundException($"Iban number[{ibanNumber}] was not found");
+
             var statements = await _statementRepository.GetByAccountId(account.Id);
 
             return statements.Select(x => ConvertToDto(x));

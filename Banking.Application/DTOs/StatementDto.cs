@@ -3,9 +3,11 @@ using System;
 
 namespace Banking.Application.DTOs
 {
-    public class StatementDto : StatementDepositDto
+    public class StatementDto
     {
         public int id { get; set; }
+        public double amount { get; set; }
+        public StatementType statement_type { get; set; }
         public double fee_as_percent { get; set; }
         public DateTime create_at { get; set; }
         public double actual_amount {

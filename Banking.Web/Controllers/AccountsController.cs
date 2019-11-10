@@ -40,7 +40,7 @@ namespace Banking.Web.Controllers
         public async Task<ActionResult<AccountDto>> Post(AccountRegisterDto dto)
         {
             var viewDto = await _accountService.Create(dto);
-            return CreatedAtAction("Get", viewDto.iban_number, viewDto);
+            return CreatedAtAction("Get", new { ibanNumber = viewDto.iban_number }, viewDto);
         }
 
     }

@@ -15,9 +15,7 @@ namespace Banking.Infrastructure.Repositories.EFCore
 
         public async Task<Account> GetByIBanNumber(string ibanNumber)
         {
-            var account = await _context.Account.SingleOrDefaultAsync(x => x.IBanNumber == ibanNumber);
-            if (account == null)
-                throw new DataNotFoundException($"Iban number[{ibanNumber}] was not found");
+            var account = await _context.Account.FirstOrDefaultAsync(x => x.IBanNumber == ibanNumber);
 
             return account;
         }

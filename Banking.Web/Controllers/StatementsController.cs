@@ -1,7 +1,6 @@
 ﻿using Banking.Application.DTOs;
 using Banking.Service.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -41,7 +40,7 @@ namespace Banking.Web.Controllers
         public async Task<ActionResult<StatementDto>> Post(StatementDepositDto dto)
         {
             var viewDto = await _statementService.Deposit(dto);
-            return CreatedAtAction("Get", viewDto.id, viewDto);
+            return CreatedAtAction("Get", new { viewDto.id }, viewDto);
         }
     }
 }
