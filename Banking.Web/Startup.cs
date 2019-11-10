@@ -46,6 +46,7 @@ namespace Banking.Web
             #region service
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IStatementService, StatementService>();
+            services.AddScoped<ICashTransferService, CashTransferService>();
             #endregion
 
             services.AddControllers();
