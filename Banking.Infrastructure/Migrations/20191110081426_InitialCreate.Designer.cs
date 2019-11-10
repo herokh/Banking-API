@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Banking.Infrastructure.Migrations
 {
     [DbContext(typeof(BankingContext))]
-    [Migration("20191109095941_InitialCreate")]
+    [Migration("20191110081426_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,17 +28,18 @@ namespace Banking.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AccountBranch")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("AccountName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
-                    b.Property<double>("AvailableBalance")
-                        .HasColumnType("float");
+                    b.Property<decimal>("AvailableBalance")
+                        .HasColumnType("DECIMAL(13, 4)");
 
                     b.Property<string>("IBanNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<DateTime>("RegisterDate")
                         .HasColumnType("datetime2");
@@ -55,11 +56,11 @@ namespace Banking.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AccountId")
+                    b.Property<int>("AccountId")
                         .HasColumnType("int");
 
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("DECIMAL(13, 4)");
 
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
@@ -78,7 +79,9 @@ namespace Banking.Infrastructure.Migrations
                 {
                     b.HasOne("Banking.Application.Models.Account", "Account")
                         .WithMany("Statements")
-                        .HasForeignKey("AccountId");
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

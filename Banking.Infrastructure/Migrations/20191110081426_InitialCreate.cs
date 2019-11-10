@@ -13,10 +13,9 @@ namespace Banking.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IBanNumber = table.Column<string>(nullable: true),
-                    AccountName = table.Column<string>(nullable: true),
-                    AccountBranch = table.Column<string>(nullable: true),
-                    AvailableBalance = table.Column<double>(nullable: false),
+                    IBanNumber = table.Column<string>(maxLength: 50, nullable: false),
+                    AccountName = table.Column<string>(maxLength: 50, nullable: false),
+                    AvailableBalance = table.Column<decimal>(type: "DECIMAL(13, 4)", nullable: false),
                     RegisterDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -30,10 +29,10 @@ namespace Banking.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Amount = table.Column<double>(nullable: false),
+                    Amount = table.Column<decimal>(type: "DECIMAL(13, 4)", nullable: false),
                     CreateAt = table.Column<DateTime>(nullable: false),
                     StatementType = table.Column<int>(nullable: false),
-                    AccountId = table.Column<int>(nullable: true)
+                    AccountId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -43,7 +42,7 @@ namespace Banking.Infrastructure.Migrations
                         column: x => x.AccountId,
                         principalTable: "Account",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

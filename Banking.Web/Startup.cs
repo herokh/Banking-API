@@ -5,10 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Banking.Infrastructure;
-using Swashbuckle.AspNetCore.Swagger;
-using System;
-using System.IO;
 using Microsoft.OpenApi.Models;
+using Banking.Infrastructure.Repositories.EFCore;
 
 namespace Banking.Web
 {
@@ -24,6 +22,8 @@ namespace Banking.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<EfCoreAccountRepository>();
+
             services.AddControllers();
 
             services.AddDbContext<BankingContext>(options =>
