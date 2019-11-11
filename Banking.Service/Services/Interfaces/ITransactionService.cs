@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 namespace Banking.Service.Services.Interfaces
 {
-    public interface ICashTransferService
+    public interface ITransactionService
     {
-        Task<CashTransferResultDto> Transfer(CashTransferDto dto);
+        Task<TransferMoneyResultDto> TransferMoney(TransferMoneyDto dto);
     }
 }

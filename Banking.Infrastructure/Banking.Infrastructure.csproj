@@ -13,6 +13,12 @@
     <Compile Remove="Migrations\20191110080603_InitialCreate.Designer.cs" />
     <Compile Remove="Migrations\20191110081426_InitialCreate.cs" />
     <Compile Remove="Migrations\20191110081426_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20191111160211_AddTransactionTable.cs" />
+    <Compile Remove="Migrations\20191111160211_AddTransactionTable.Designer.cs" />
+    <Compile Remove="Migrations\20191111160929_AddTransactionTable.cs" />
+    <Compile Remove="Migrations\20191111160929_AddTransactionTable.Designer.cs" />
+    <Compile Remove="Migrations\20191111161658_AddTransactionTable.cs" />
+    <Compile Remove="Migrations\20191111161658_AddTransactionTable.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -47,7 +47,7 @@ namespace Banking.Service.Services
                 Amount = dto.amount,
                 CreateAt = DateTime.Now,
                 Fee = _appSettings.Fee,
-                StatementType = dto.statement_type
+                StatementType = Application.Enums.StatementType.Deposit
             };
             await _statementRepository.Add(statement);
 
@@ -78,7 +78,7 @@ namespace Banking.Service.Services
             return new StatementDto
             {
                 id = entity.Id,
-                amount = entity.Amount,
+                raw_amount = entity.Amount,
                 fee_as_percent = entity.Fee,
                 create_at = entity.CreateAt,
                 statement_type = entity.StatementType

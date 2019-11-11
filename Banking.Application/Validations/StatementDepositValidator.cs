@@ -18,10 +18,6 @@ namespace Banking.Application.Validations
             RuleFor(x => x.amount)
                 .NotNull()
                 .WithMessage("amount can not be null");
-
-            RuleFor(x => x.statement_type)
-                .NotNull()
-                .WithMessage("statement type can not be null");
         }
     }
 }

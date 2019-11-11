@@ -36,7 +36,13 @@ namespace Banking.Application.Middlewares
 
             if (exception is AccountNotFoundException)
                 code = HttpStatusCode.NotFound;
-            else if (exception is ValidationException || exception is AccountRegistrationException)
+            else if (
+                exception is ValidationException  ||
+                exception is MoneyNotEnoughException)
+                code = HttpStatusCode.UnprocessableEntity;
+            else if (
+                exception is AccountRegistrationException ||
+                exception is TransactionFailureException)
                 code = HttpStatusCode.BadRequest;
 
             context.Response.StatusCode = (int)code;

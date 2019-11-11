@@ -36,7 +36,7 @@ namespace Banking.Web.Controllers
             return Ok(viewDto);
         }
 
-        [HttpPost]
+        [HttpPost("deposit")]
         public async Task<ActionResult<StatementDto>> Post(StatementDepositDto dto)
         {
             var viewDto = await _statementService.Deposit(dto);

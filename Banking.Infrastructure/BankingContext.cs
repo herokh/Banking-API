@@ -12,11 +12,13 @@ namespace Banking.Infrastructure
 
         public DbSet<Account> Account { get; set; }
         public DbSet<Statement> Statement { get; set; }
+        public DbSet<Transaction> Transaction { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Account>().ToTable("Account");
-            modelBuilder.Entity<Statement>().ToTable("Statement");
+            modelBuilder.Entity<Account>().ToTable("account");
+            modelBuilder.Entity<Statement>().ToTable("statement");
+            modelBuilder.Entity<Transaction>().ToTable("transaction");
 
             modelBuilder.Entity<Statement>(entityBuilder =>
             {

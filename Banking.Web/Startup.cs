@@ -41,12 +41,13 @@ namespace Banking.Web
             #region infrastructure
             services.AddScoped<AccountRepository>();
             services.AddScoped<StatementRepository>();
+            services.AddScoped<TransactionRepository>();
             #endregion
 
             #region service
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IStatementService, StatementService>();
-            services.AddScoped<ICashTransferService, CashTransferService>();
+            services.AddScoped<ITransactionService, TransactionService>();
             #endregion
 
             services.AddControllers();
@@ -69,8 +70,10 @@ namespace Banking.Web
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseMiddleware<ExceptionMiddleware>();
+            else
+            {
+                app.UseMiddleware<ExceptionMiddleware>();
+            }
 
             app.UseHttpsRedirection();
 

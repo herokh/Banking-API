@@ -2,6 +2,6 @@
 {
     public enum StatementType
     {
-        Withdraw, Deposit
+        Withdraw, Deposit, Transfer
     }
 }
