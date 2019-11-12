@@ -7,5 +7,6 @@ namespace Banking.Infrastructure.Repositories.Interfaces
     {
         Task<Account> GetByIBanNumber(string ibanNumber);
         Task<bool> IsUniqueIbanNumber(string ibanNumber);
+        Task<bool> HasAccount(string ibanNumber);
     }
 }

@@ -12,8 +12,8 @@ namespace Banking.Service.Validations
                 .NotEmpty()
                 .Matches("([NL]{2})(\\d{2})([A-Z]{4})(\\d{10})")
                 .WithMessage("iban number is invalid")
-                .MustAsync((x, y, z) => accountRepository.IsUniqueIbanNumber(x.iban_number))
-                .WithMessage("iban number already exists");
+                .MustAsync((x, y, z) => accountRepository.HasAccount(x.iban_number))
+                .WithMessage("account was not found");
 
             RuleFor(x => x.amount)
                 .NotEmpty().WithMessage("amount can not be empty")

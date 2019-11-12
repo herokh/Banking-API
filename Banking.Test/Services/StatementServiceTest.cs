@@ -47,7 +47,7 @@ namespace Banking.Test.Services
                 amount = 100
             };
 
-            MockAccountRepository.Setup(x => x.IsUniqueIbanNumber(It.IsAny<string>())).Returns(Task.FromResult(false));
+            MockAccountRepository.Setup(x => x.HasAccount(It.IsAny<string>())).Returns(Task.FromResult(false));
 
             Assert.ThrowsAsync<ValidationException>(() => _testService.Deposit(dto));
         }
@@ -61,7 +61,7 @@ namespace Banking.Test.Services
                 amount = 100
             };
 
-            MockAccountRepository.Setup(x => x.IsUniqueIbanNumber(It.IsAny<string>())).Returns(Task.FromResult(true));
+            MockAccountRepository.Setup(x => x.HasAccount(It.IsAny<string>())).Returns(Task.FromResult(true));
             MockStatementRepository.Setup(x => x.Add(It.IsAny<Statement>())).Returns(Task.FromResult(new Statement()));
 
             var result = _testService.Deposit(dto).Result;

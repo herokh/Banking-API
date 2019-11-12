@@ -32,5 +32,11 @@ namespace Banking.Infrastructure.Repositories.EFCore
             return account == null;
         }
 
+        public virtual async Task<bool> HasAccount(string ibanNumber)
+        {
+            Account account = await GetByIBanNumber(ibanNumber);
+
+            return account != null;
+        }
     }
 }
