@@ -15,12 +15,12 @@ namespace Banking.Test.Services
 {
     public class TransactionServiceTest : TestBase
     {
-        private TransactionService testService;
+        private TransactionService _testService;
 
         [SetUp]
         public void Setup()
         {
-            testService = new TransactionService(
+            _testService = new TransactionService(
                 MockAccountRepository.Object,
                 MockStatementRepository.Object,
                 MockTransactionRepository.Object,
@@ -39,7 +39,7 @@ namespace Banking.Test.Services
                 amount = -1
             };
 
-            Assert.ThrowsAsync<ValidationException>(() => testService.TransferMoney(dto));
+            Assert.ThrowsAsync<ValidationException>(() => _testService.TransferMoney(dto));
         }
 
         [TestCase]
@@ -52,7 +52,7 @@ namespace Banking.Test.Services
                 amount = -1
             };
 
-            Assert.ThrowsAsync<ValidationException>(() => testService.TransferMoney(dto));
+            Assert.ThrowsAsync<ValidationException>(() => _testService.TransferMoney(dto));
         }
 
         [TestCase]
@@ -65,7 +65,7 @@ namespace Banking.Test.Services
                 amount = -1
             };
 
-            Assert.ThrowsAsync<ValidationException>(() => testService.TransferMoney(dto));
+            Assert.ThrowsAsync<ValidationException>(() => _testService.TransferMoney(dto));
         }
 
         [TestCase]
@@ -85,7 +85,7 @@ namespace Banking.Test.Services
             MockAccountRepository.Setup(x => x.GetByIBanNumber(sender)).Returns(Task.FromResult(senderInstance));
             MockAccountRepository.Setup(x => x.GetByIBanNumber(payee)).Returns(Task.FromResult(payeeInstance));
 
-            Assert.ThrowsAsync<AccountNotFoundException>(() => testService.TransferMoney(dto));
+            Assert.ThrowsAsync<AccountNotFoundException>(() => _testService.TransferMoney(dto));
         }
 
         [TestCase]
@@ -105,7 +105,7 @@ namespace Banking.Test.Services
             MockAccountRepository.Setup(x => x.GetByIBanNumber(sender)).Returns(Task.FromResult(senderInstance));
             MockAccountRepository.Setup(x => x.GetByIBanNumber(payee)).Returns(Task.FromResult(payeeInstance));
 
-            Assert.ThrowsAsync<AccountNotFoundException>(() => testService.TransferMoney(dto));
+            Assert.ThrowsAsync<AccountNotFoundException>(() => _testService.TransferMoney(dto));
         }
 
         [TestCase]
@@ -132,7 +132,7 @@ namespace Banking.Test.Services
             };
             MockStatementRepository.Setup(x => x.GetByAccountId(It.IsAny<int>())).Returns(Task.FromResult(statements));
 
-            Assert.ThrowsAsync<MoneyNotEnoughException>(() => testService.TransferMoney(dto));
+            Assert.ThrowsAsync<MoneyNotEnoughException>(() => _testService.TransferMoney(dto));
         }
 
         [TestCase]
@@ -163,7 +163,7 @@ namespace Banking.Test.Services
             TransferMoneyResultDto resultDto = new TransferMoneyResultDto { success = true };
             MockTransactionRepository.Setup(x => x.SaveTransferringMoney(It.IsAny<TransferMoneyFullDto>())).Returns(Task.FromResult(resultDto));
 
-            var result = testService.TransferMoney(dto).Result;
+            var result = _testService.TransferMoney(dto).Result;
             Assert.IsTrue(result.success);
         }
 
