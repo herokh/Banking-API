@@ -23,18 +23,12 @@ namespace Banking.Web.Controllers
             return Ok(viewDto);
         }
 
-        [HttpGet("{ibanNumber}/account")]
+        [HttpGet("account/{ibanNumber}")]
         public async Task<ActionResult<IEnumerable<StatementDto>>> GetAll(string ibanNumber)
         {
             var viewDto = await _statementService.GetAll(ibanNumber);
             return Ok(viewDto);
         }
 
-        [HttpPost("deposit")]
-        public async Task<ActionResult<StatementDto>> Post(StatementDepositDto dto)
-        {
-            var viewDto = await _statementService.Deposit(dto);
-            return CreatedAtAction("Get", new { viewDto.id }, viewDto);
-        }
     }
 }

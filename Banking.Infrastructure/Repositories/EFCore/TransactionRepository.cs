@@ -20,7 +20,12 @@ namespace Banking.Infrastructure.Repositories.EFCore
             _statementRepository = statementRepository;
         }
 
-        public async Task<TransferMoneyResultDto> SaveTransferringMoney(TransferMoneyFullDto dto)
+        public TransactionRepository() : base(null)
+        {
+
+        }
+
+        public virtual async Task<TransferMoneyResultDto> SaveTransferringMoney(TransferMoneyFullDto dto)
         {
             TransferMoneyResultDto resultDto = new TransferMoneyResultDto();
 
@@ -33,7 +38,7 @@ namespace Banking.Infrastructure.Repositories.EFCore
                         Account = dto.sender,
                         StatementType = StatementType.Transfer,
                         Fee = dto.transfer_fee,
-                        Amount = dto.amount,
+                        Amount = -dto.amount,
                         CreateAt = dto.transfer_date
                     });
 

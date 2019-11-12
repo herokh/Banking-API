@@ -13,14 +13,19 @@ namespace Banking.Infrastructure.Repositories.EFCore
             _context = context;
         }
 
-        public async Task<Account> GetByIBanNumber(string ibanNumber)
+        public AccountRepository() : base(null)
+        {
+            // unit test
+        }
+
+        public virtual async Task<Account> GetByIBanNumber(string ibanNumber)
         {
             Account account = await _context.Account.FirstOrDefaultAsync(x => x.IBanNumber == ibanNumber);
 
             return account;
         }
 
-        public async Task<bool> IsUniqueIbanNumber(string ibanNumber)
+        public virtual async Task<bool> IsUniqueIbanNumber(string ibanNumber)
         {
             Account account = await GetByIBanNumber(ibanNumber);
 

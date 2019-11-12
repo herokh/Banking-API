@@ -15,7 +15,12 @@ namespace Banking.Infrastructure.Repositories.EFCore
             _context = context;
         }
 
-        public async Task<IEnumerable<Statement>> GetByAccountId(int accountId)
+        public StatementRepository() : base(null)
+        {
+            // unit test
+        }
+
+        public virtual async Task<IEnumerable<Statement>> GetByAccountId(int accountId)
         {
             return await _context.Statement.Where(x => x.Account != null && x.Account.Id == accountId).ToListAsync();
         }

@@ -10,9 +10,20 @@ namespace Banking.Web.Controllers
     public class TransactionsController : ControllerBase
     {
         private readonly ITransactionService _transactionService;
-        public TransactionsController(ITransactionService transactionService)
+        private readonly IStatementService _statementService;
+        public TransactionsController(
+            ITransactionService transactionService,
+            IStatementService statementService)
         {
             _transactionService = transactionService;
+            _statementService = statementService;
+        }
+
+        [HttpPost("deposit")]
+        public async Task<ActionResult<StatementDto>> Post(StatementDepositDto dto)
+        {
+            var viewDto = await _statementService.Deposit(dto);
+            return Ok(viewDto);
         }
 
         [HttpPost("transfer")]

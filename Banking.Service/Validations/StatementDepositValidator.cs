@@ -11,13 +11,13 @@ namespace Banking.Service.Validations
             RuleFor(x => x.iban_number)
                 .NotEmpty()
                 .Matches("([NL]{2})(\\d{2})([A-Z]{4})(\\d{10})")
-                .WithMessage("Iban number is invalid")
+                .WithMessage("iban number is invalid")
                 .MustAsync((x, y, z) => accountRepository.IsUniqueIbanNumber(x.iban_number))
                 .WithMessage("iban number already exists");
 
             RuleFor(x => x.amount)
-                .NotNull()
-                .WithMessage("amount can not be null");
+                .NotEmpty().WithMessage("amount can not be empty")
+                .GreaterThan(0).WithMessage("amount must more than 0");
         }
     }
 }
