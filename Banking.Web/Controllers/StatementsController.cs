@@ -20,9 +20,6 @@ namespace Banking.Web.Controllers
         public async Task<ActionResult<StatementDto>> Get(int id)
         {
             var viewDto = await _statementService.Get(id);
-            if (viewDto == null)
-                return NotFound();
-
             return Ok(viewDto);
         }
 
@@ -30,9 +27,6 @@ namespace Banking.Web.Controllers
         public async Task<ActionResult<IEnumerable<StatementDto>>> GetAll(string ibanNumber)
         {
             var viewDto = await _statementService.GetAll(ibanNumber);
-            if (viewDto == null)
-                return NotFound();
-
             return Ok(viewDto);
         }
 

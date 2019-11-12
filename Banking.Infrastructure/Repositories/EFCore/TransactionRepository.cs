@@ -2,12 +2,14 @@
 using Banking.Application.Enums;
 using Banking.Application.Exceptions;
 using Banking.Application.Models;
+using Banking.Infrastructure.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Threading.Tasks;
 
 namespace Banking.Infrastructure.Repositories.EFCore
 {
-    public class TransactionRepository : EfCoreRepository<Transaction, BankingContext>
+    public class TransactionRepository : EfCoreRepository<Transaction, BankingContext>, ITransactionRepository
     {
         private readonly BankingContext _context;
         private readonly StatementRepository _statementRepository;
@@ -18,14 +20,11 @@ namespace Banking.Infrastructure.Repositories.EFCore
             _statementRepository = statementRepository;
         }
 
-        public async Task<TransferMoneyResultDto> TransferMoney(TransferMoneyFullDto dto)
+        public async Task<TransferMoneyResultDto> SaveTransferringMoney(TransferMoneyFullDto dto)
         {
             TransferMoneyResultDto resultDto = new TransferMoneyResultDto();
-            DateTime transferAt = DateTime.Now;
-            // free fee
-            double fee = 0;
 
-            using (var transaction = _context.Database.BeginTransaction())
+            using (IDbContextTransaction transaction = _context.Database.BeginTransaction())
             {
                 try
                 {
@@ -33,25 +32,25 @@ namespace Banking.Infrastructure.Repositories.EFCore
                     {
                         Account = dto.sender,
                         StatementType = StatementType.Transfer,
-                        Fee = fee,
+                        Fee = dto.transfer_fee,
                         Amount = dto.amount,
-                        CreateAt = transferAt
+                        CreateAt = dto.transfer_date
                     });
 
                     Statement payeeStatement = await _statementRepository.Add(new Statement
                     {
                         Account = dto.payee,
                         StatementType = StatementType.Deposit,
-                        Fee = fee,
+                        Fee = dto.transfer_fee,
                         Amount = dto.amount,
-                        CreateAt = transferAt
+                        CreateAt = dto.transfer_date
                     });
 
                     Transaction trasactionResult = await Add(new Transaction
                     {
                         PayeeStatement = payeeStatement,
                         SenderStatement = senderStatement,
-                        TransferAt = transferAt
+                        TransferAt = dto.transfer_date
                     });
 
                     await transaction.CommitAsync();
@@ -59,7 +58,7 @@ namespace Banking.Infrastructure.Repositories.EFCore
                 }
                 catch (Exception ex)
                 {
-                    throw new TransactionFailureException("System error :)", ex);
+                    throw new TransactionFailureException("transaction error", ex);
                 }
             }
 

@@ -9,11 +9,11 @@ using Microsoft.OpenApi.Models;
 using Banking.Infrastructure.Repositories.EFCore;
 using FluentValidation;
 using Banking.Application.DTOs;
-using Banking.Application.Validations;
 using Banking.Service.Services.Interfaces;
 using Banking.Service.Services;
 using Banking.Application.Models;
 using Banking.Application.Middlewares;
+using Banking.Service.Validations;
 
 namespace Banking.Web
 {
@@ -34,6 +34,8 @@ namespace Banking.Web
             services.AddScoped<AccountRegisterValidator>();
             services.AddTransient<IValidator<StatementDepositDto>, StatementDepositValidator>();
             services.AddScoped<StatementDepositValidator>();
+            services.AddTransient<IValidator<TransferMoneyDto>, TransactionTransferMoneyValidator>();
+            services.AddScoped<TransactionTransferMoneyValidator>();
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             #endregion

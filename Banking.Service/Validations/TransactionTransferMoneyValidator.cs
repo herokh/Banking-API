@@ -1,7 +1,7 @@
 ﻿using Banking.Application.DTOs;
 using FluentValidation;
 
-namespace Banking.Application.Validations
+namespace Banking.Service.Validations
 {
     public class TransactionTransferMoneyValidator : AbstractValidator<TransferMoneyDto>
     {

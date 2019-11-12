@@ -6,7 +6,7 @@ namespace Banking.Service.Services.Interfaces
 {
     public interface IAccountService
     {
-        Task<AccountDto> Create(AccountRegisterDto dto);
+        Task<AccountDto> Register(AccountRegisterDto dto);
         Task<AccountDto> Get(string ibanNumber);
         Task<IEnumerable<AccountDto>> GetAll();
     }

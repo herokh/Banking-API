@@ -20,9 +20,6 @@ namespace Banking.Web.Controllers
         public async Task<ActionResult<IEnumerable<AccountDto>>> GetAll()
         {
             var viewDto = await _accountService.GetAll();
-            if (viewDto == null)
-                return NotFound();
-
             return Ok(viewDto);
         }
 
@@ -30,16 +27,13 @@ namespace Banking.Web.Controllers
         public async Task<ActionResult<AccountDto>> Get(string ibanNumber)
         {
             var viewDto = await _accountService.Get(ibanNumber);
-            if (viewDto == null)
-                return NotFound();
-
             return Ok(viewDto);
         }
 
         [HttpPost]
         public async Task<ActionResult<AccountDto>> Post(AccountRegisterDto dto)
         {
-            var viewDto = await _accountService.Create(dto);
+            var viewDto = await _accountService.Register(dto);
             return CreatedAtAction("Get", new { ibanNumber = viewDto.iban_number }, viewDto);
         }
 
